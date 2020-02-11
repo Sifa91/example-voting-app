@@ -30,7 +30,7 @@ def index():
         voter_name = ""
 
     if request.method == 'POST':
-        voter_name = request.form['name']
+        voter_name = request.form['player']
 
     resp = make_response(render_template(
         'index.html',
