@@ -22,14 +22,20 @@ def get_redis():
 @app.route("/", methods=['GET'])
 def index():
     voter_id = request.cookies.get('voter_id')
+    voter_name = request.cookies.get('voter_name')
     if not voter_id:
         voter_id = hex(random.getrandbits(64))[2:-1]
+
+    if request.method == 'POST':
+        voter_name = request.form['name']
 
     resp = make_response(render_template(
         'index.html',
         hostname=hostname,
+        name=voter_name
     ))
     resp.set_cookie('voter_id', voter_id)
+    resp.set_cookie('voter_name', voter_name)
     return resp
 
 @app.route("/start", methods=['POST','GET'])
@@ -37,8 +43,6 @@ def start():
     count = counter
     question = os.getenv('QUESTION_' + str(count), "Question")
     voter_id = request.cookies.get('voter_id')
-    if not voter_id:
-        voter_id = hex(random.getrandbits(64))[2:-1]
 
     vote = None
 
@@ -56,7 +60,6 @@ def start():
         hostname=hostname,
         vote=vote,
     ))
-    resp.set_cookie('voter_id', voter_id)
     return resp
 
 @app.route("/next", methods=['POST','GET'])

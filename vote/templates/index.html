@@ -13,8 +13,9 @@
     <div id="content-container">
       <div id="content-container-center">
         <h3>Welcome to Red Hat's true or false game!</h3>
-        <form id="choice" name='form' method="POST" action="/">
-          <input id="name" type="submit" name="vote"></input>
+        <form id="player" name='form' method="POST" action="/">
+          <input id="name" name="name" type="text" value="name"required></input>
+          <button id="submit" type="submit" name="submit">Einloggen</button>
         </form>
         <div id="hostname">
           Processed by container ID {{hostname}}
