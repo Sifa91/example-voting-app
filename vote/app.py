@@ -25,14 +25,9 @@ def index():
     if not voter_id:
         voter_id = hex(random.getrandbits(64))[2:-1]
 
-    vote = None
-
     resp = make_response(render_template(
         'index.html',
-        option_a=option_a,
-        option_b=option_b,
         hostname=hostname,
-        vote=vote,
     ))
     resp.set_cookie('voter_id', voter_id)
     return resp
@@ -50,11 +45,11 @@ def start():
     if request.method == 'POST':
         redis = get_redis()
         vote = request.form['vote']
-        data = json.dumps({'voter_id': voter_id, 'vote': vote})
+        data = json.dumps({'voter_id': voter_id, 'vote': vote, 'question': question})
         redis.rpush('votes', data)
 
     resp = make_response(render_template(
-        'start.html',
+        'vote.html',
         question=question,
         option_a=option_a,
         option_b=option_b,
@@ -77,7 +72,7 @@ def next():
     if request.method == 'POST':
         redis = get_redis()
         vote = request.form['vote']
-        data = json.dumps({'voter_id': voter_id, 'vote': vote})
+        data = json.dumps({'voter_id': voter_id, 'vote': vote, 'question': question})
         redis.rpush('votes', data)
 
     resp = make_response(render_template(

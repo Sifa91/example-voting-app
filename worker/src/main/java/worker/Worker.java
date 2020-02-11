@@ -18,8 +18,9 @@ class Worker {
         JSONObject voteData = new JSONObject(voteJSON);
         String voterID = voteData.getString("voter_id");
         String vote = voteData.getString("vote");
+        String question = voteData.getString("question");
 
-        System.err.printf("Processing vote for '%s' by '%s'\n", vote, voterID);
+        System.err.printf("Processing vote for '%s' by '%s'\n",question, vote, voterID);
         updateVote(dbConn, voterID, vote);
       }
     } catch (SQLException e) {
@@ -28,19 +29,21 @@ class Worker {
     }
   }
 
-  static void updateVote(Connection dbConn, String voterID, String vote) throws SQLException {
+  static void updateVote(Connection dbConn, String voterID, String question, String vote) throws SQLException {
     PreparedStatement insert = dbConn.prepareStatement(
-      "INSERT INTO votes (id, vote) VALUES (?, ?)");
+      "INSERT INTO votes (id, question, vote) VALUES (?, ?, ?)");
     insert.setString(1, voterID);
-    insert.setString(2, vote);
+    insert.setString(2, question);
+    insert.setString(3, vote);
 
     try {
       insert.executeUpdate();
     } catch (SQLException e) {
       PreparedStatement update = dbConn.prepareStatement(
-        "UPDATE votes SET vote = ? WHERE id = ?");
+        "UPDATE votes SET vote = ? WHERE id = ? and question = ?");
       update.setString(1, vote);
       update.setString(2, voterID);
+      update.setString(3, question)
       update.executeUpdate();
     }
   }
