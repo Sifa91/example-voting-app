@@ -43,7 +43,7 @@ class Worker {
         "UPDATE votes SET vote = ? WHERE id = ? AND question = ?");
       update.setString(1, vote);
       update.setString(2, voterID);
-      update.setString(3, question)
+      update.setString(3, question);
       update.executeUpdate();
     }
   }
