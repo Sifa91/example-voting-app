@@ -21,7 +21,7 @@ class Worker {
         String question = voteData.getString("question");
 
         System.err.printf("Processing vote for '%s' by '%s'\n",question, vote, voterID);
-        updateVote(dbConn, voterID, vote);
+        updateVote(dbConn, voterID, vote, question);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -29,18 +29,18 @@ class Worker {
     }
   }
 
-  static void updateVote(Connection dbConn, String voterID, String question, String vote) throws SQLException {
+  static void updateVote(Connection dbConn, String voterID, String vote, String question) throws SQLException {
     PreparedStatement insert = dbConn.prepareStatement(
-      "INSERT INTO votes (id, question, vote) VALUES (?, ?, ?)");
+      "INSERT INTO votes (id, vote, question) VALUES (?, ?, ?)");
     insert.setString(1, voterID);
-    insert.setString(2, question);
-    insert.setString(3, vote);
+    insert.setString(2, vote);
+    insert.setString(3, question);
 
     try {
       insert.executeUpdate();
     } catch (SQLException e) {
       PreparedStatement update = dbConn.prepareStatement(
-        "UPDATE votes SET vote = ? WHERE id = ? and question = ?");
+        "UPDATE votes SET vote = ? WHERE id = ? AND question = ?");
       update.setString(1, vote);
       update.setString(2, voterID);
       update.setString(3, question)
@@ -83,7 +83,7 @@ class Worker {
       }
 
       PreparedStatement st = conn.prepareStatement(
-        "CREATE TABLE IF NOT EXISTS votes (id VARCHAR(255) NOT NULL UNIQUE, vote VARCHAR(255) NOT NULL)");
+        "CREATE TABLE IF NOT EXISTS votes (id VARCHAR(255) NOT NULL UNIQUE, vote VARCHAR(255) NOT NULL, question VARCHAR(255) NOT NULL))");
       st.executeUpdate();
 
     } catch (ClassNotFoundException e) {
