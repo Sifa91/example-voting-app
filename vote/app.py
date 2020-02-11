@@ -19,7 +19,7 @@ def get_redis():
         g.redis = Redis(host="redis", db=0, socket_timeout=5)
     return g.redis
 
-@app.route("/", methods=['GET'])
+@app.route("/", methods=['GET', 'POST'])
 def index():
     voter_id = request.cookies.get('voter_id')
     voter_name = request.cookies.get('voter_name')
