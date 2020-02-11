@@ -15,10 +15,10 @@
         <h3>Welcome to Red Hat's true or false game!</h3>
         <form id="playerForm" name='playerForm' method="POST" action="/">
           <input id="player" name="player" type="text" value="{{name}}" required></input>
-          <button id="submit" type="submit" name="submit">Login</button>
+          <button id="login" type="submit" name="login">Login</button>
         </form>
         <form id="startForm" name='startForm' method="POST" action="/wait">
-          <button id="submit" type="submit" name="submit">Start</button>
+          <button id="start" type="submit" name="start">Start</button>
         </form>
         <div id="hostname">
           Processed by container ID {{hostname}}
@@ -32,13 +32,16 @@
       var name = "{{name}}";
 
       if(name === ""){
-        $(".playerForm").prop('disabled', false);
-        $(".startForm").prop('disabled', true);
-        $(".startForm").css('opacity','0.5');
+        $(".player").prop('disabled', false);
+        $(".login").prop('disabled', false);
+        $(".start").prop('disabled', true);
+        $(".start").css('opacity','0.5');
       }else {
-        $(".startForm").prop('disabled', false);
-        $(".playerForm").prop('disabled', true);
-        $(".playerForm").css('opacity','0.5');
+        $(".player").prop('disabled', true);
+        $(".login").prop('disabled', true);
+        $(".start").prop('disabled', false);
+        $(".player").css('opacity','0.5');
+        $(".login").css('opacity','0.5');
       }
     </script>
     {% endif %}
