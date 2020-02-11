@@ -35,7 +35,7 @@ def index():
 @app.route("/start", methods=['POST','GET'])
 def start():
     count = counter
-    question = os.getenv('QUESTION_'+count, "Question")
+    question = os.getenv('QUESTION_' + str(count), "Question")
     voter_id = request.cookies.get('voter_id')
     if not voter_id:
         voter_id = hex(random.getrandbits(64))[2:-1]
@@ -62,7 +62,7 @@ def start():
 @app.route("/next", methods=['POST','GET'])
 def next():
     count = counter + 1
-    question = os.getenv('QUESTION_'+count, "Question")
+    question = os.getenv('QUESTION_' + str(count), "Question")
     voter_id = request.cookies.get('voter_id')
     if not voter_id:
         voter_id = hex(random.getrandbits(64))[2:-1]
