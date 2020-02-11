@@ -1,4 +1,4 @@
-OpennShift Voting App
+OpenShift Voting App
 =========
 
 A simple distributed application running across multiple Pods.
