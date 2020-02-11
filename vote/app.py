@@ -26,9 +26,11 @@ def index():
     if not voter_id:
         voter_id = hex(random.getrandbits(64))[2:-1]
 
+    if not voter_name:
+        voter_name = ""
+
     if request.method == 'POST':
         voter_name = request.form['name']
-        resp.set_cookie('voter_name', voter_name)
 
     resp = make_response(render_template(
         'index.html',
@@ -36,6 +38,7 @@ def index():
         name=voter_name
     ))
     resp.set_cookie('voter_id', voter_id)
+    resp.set_cookie('voter_name', voter_name)
     return resp
 
 @app.route("/start", methods=['POST','GET'])
